@@ -17,8 +17,9 @@ local get_image_data_sync = function(buf_path, width, height, opts, callback)
     stdout_buffered = true,
     on_stdout = function(_, data)
       if data then
-				-- if data starts with [?25l then remove it
 				vim.print(data)
+				-- if data starts with ^[?25l then remove it
+				data[1] = data[1]:gsub("\27[?25l", "")
         table.remove(data)
         callback(data)
       end
